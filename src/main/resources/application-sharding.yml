@@ -1,0 +1,29 @@
+#分库数据库设置
+sharding.jdbc.datasource.names: sphere-0,sphere-1
+#数据分片设置
+sharding.jdbc.datasource.sphere-0:
+  type: org.apache.commons.dbcp.BasicDataSource
+  driver-class-name: com.mysql.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/sharing-sphere-0?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+  username: root
+  password: mis
+
+sharding.jdbc.datasource.sphere-1:
+  type: org.apache.commons.dbcp.BasicDataSource
+  driver-class-name: com.mysql.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/sharing-sphere-1?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+  username: root
+  password: mis
+
+#分库规则配置 分库键不要使用自增的主键
+sharding.jdbc.config.sharding.default-database-strategy.inline:
+  sharding-column: user_id
+  algorithm-expression: sphere-$->{user_id % 2}
+
+#t_order表分片规则配置 分片键不要使用自增的主键
+sharding.jdbc.config.sharding.tables.t_order:
+  actual-data-nodes: sphere-$->{0..1}.t_order_$->{0..1}
+  table-strategy.inline:
+    sharding-column: order_id
+    algorithm-expression: t_order_$->{order_id % 2}
+    key-generator-column-name: order_id
