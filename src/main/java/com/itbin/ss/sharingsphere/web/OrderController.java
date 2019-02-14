@@ -1,5 +1,6 @@
 package com.itbin.ss.sharingsphere.web;
 
+import com.itbin.ss.sharingsphere.data.dto.ResultDto;
 import com.itbin.ss.sharingsphere.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +18,18 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping("/add")
-    public String add(){
+    @RequestMapping(value = "/addInfo")
+    public ResultDto addInfo(){
+        System.out.println(222);
+        //orderService.add(10);
+        orderService.addOne();
 
-        orderService.add(10);
+        return ResultDto.builder().data(1).build();
+    }
 
-        return "ok";
+    @GetMapping(value = "/hello")
+    public String hello(){
+        System.out.println(333);
+        return "hello";
     }
 }

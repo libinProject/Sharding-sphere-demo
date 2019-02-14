@@ -23,7 +23,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void add(int nums) {
 
-        while(nums-- >0){
+        Integer count=0;
+        while(nums>0){
+            System.out.println(count);
             long orderId = generateTaskId();
             Order orderEntity = new Order();
 
@@ -31,10 +33,24 @@ public class OrderServiceImpl implements OrderService {
             orderEntity.setUserId(100000-nums);
             orderEntity.setStatus("Waiting for paying");
             orderMapper.insertSelective(orderEntity);
+            count++;
+            nums--;
 
         }
 
 
+    }
+
+    @Override
+    public void addOne() {
+        System.out.println(111);
+        long orderId = generateTaskId();
+        Order orderEntity = new Order();
+
+        orderEntity.setOrderId(orderId);
+        orderEntity.setUserId(100000);
+        orderEntity.setStatus("Waiting for paying");
+        orderMapper.insertSelective(orderEntity);
     }
 
     private long generateTaskId(){

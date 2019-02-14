@@ -9,4 +9,6 @@ import com.itbin.ss.sharingsphere.model.Order;
 public interface OrderService {
 
     void add(int nums);
+
+    void addOne();
 }
